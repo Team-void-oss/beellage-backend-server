@@ -93,7 +93,7 @@ public class AuthServiceImpl implements AuthService {
             htmlContent = createAuthMail((code));
         }
 
-        helper.setText(htmlContent, true);
+        helper.setText(htmlContent, TRUE);
         javaMailSender.send(message);
 
         return code;
