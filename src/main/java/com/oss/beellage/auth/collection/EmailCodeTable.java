@@ -19,7 +19,11 @@ public class EmailCodeTable {
     }
 
     public boolean isTimeout(String email) {
-        // 여기서 시간 지난 데이터들모두 삭제
+        LocalDateTime now = LocalDateTime.now();
+
+        emailCodeTable.entrySet().removeIf(key ->
+                Duration.between(key.getValue().time(), now).toMinutes() >= LIMIT_TIME
+        );
 
         return Duration.between(
                 emailCodeTable.get(email).time(),
