@@ -1,5 +1,15 @@
 package com.oss.beellage.auth.service;
 
+import static com.oss.beellage.auth.constant.ConstantsUtils.ENCODING;
+import static com.oss.beellage.auth.constant.ConstantsUtils.GMAIL_POSTFIX;
+import static com.oss.beellage.auth.constant.ConstantsUtils.MAIL_AUTH_TITLE;
+import static com.oss.beellage.auth.constant.ConstantsUtils.RANDOM_NUMBER_RANGE;
+import static com.oss.beellage.auth.constant.ConstantsUtils.RANDOM_NUMBER_START;
+import static com.oss.beellage.auth.constant.ConstantsUtils.createAuthMail;
+import static com.oss.beellage.auth.constant.ConstantsUtils.createGoogleAuthMail;
+import static com.oss.beellage.auth.exception.Message.AUTH_ERROR_MESSAGE;
+import static java.lang.Boolean.TRUE;
+
 import com.oss.beellage.auth.collection.EmailCodeTable;
 import com.oss.beellage.auth.collection.EmailCodeTable.EmailCode;
 import com.oss.beellage.auth.dto.EmailAuthRequest;
@@ -7,8 +17,9 @@ import com.oss.beellage.auth.exception.AuthException;
 import com.oss.beellage.auth.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.UUID;
+import java.util.Random;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -28,14 +39,17 @@ public class AuthServiceImpl implements AuthService {
         String email = emailAuthRequest.email();
 
         if (userRepository.findByEmail(email).isPresent()) {
-            throw new AuthException("A user with " + email + " already exists", HttpStatus.CONFLICT);
+            throw new AuthException(AUTH_ERROR_MESSAGE + email, HttpStatus.CONFLICT);
         }
 
         try {
             String code = sendMail(email);
             emailCodeTable.add(email, new EmailCode(code, LocalDateTime.now()));
         } catch (MessagingException messagingException) {
-            System.out.println("메일전송 에러");
+            throw new AuthException(
+                    AUTH_ERROR_MESSAGE,
+                    HttpStatus.INTERNAL_SERVER_ERROR
+            );
         }
     }
 
@@ -44,39 +58,50 @@ public class AuthServiceImpl implements AuthService {
 
         if (!emailCodeTable.contains(email)) {
             throw new AuthException(
-                    "인증테이블에 존재하지 않음",
+                    AUTH_ERROR_MESSAGE,
                     HttpStatus.NOT_FOUND
             );
         }
 
         if (emailCodeTable.isTimeout(email)) {
             throw new AuthException(
-                    "인증 코드 시간이 유효하지 않음",
+                    AUTH_ERROR_MESSAGE,
                     HttpStatus.REQUEST_TIMEOUT
             );
         }
 
         if (!emailCodeTable.isValidCode(email, code)) {
             throw new AuthException(
-                    "인증 코드가 유효하지 않음",
+                    AUTH_ERROR_MESSAGE,
                     HttpStatus.UNAUTHORIZED
             );
         }
     }
 
-
     private String sendMail(String email) throws MessagingException {
-        UUID code = UUID.randomUUID();
+        String code = generateRandomCode();
         MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, true);
+        MimeMessageHelper helper = new MimeMessageHelper(message, TRUE, ENCODING);
 
         helper.setTo(email);
-        // 귀꿀쉐 ㄱㄱ
-        helper.setSubject("이메일 인증");
-        helper.setText(code.toString(), true);
+        helper.setSubject(MAIL_AUTH_TITLE);
 
+        String htmlContent;
+        if (email.contains(GMAIL_POSTFIX)) {
+            htmlContent = createGoogleAuthMail((code));
+        } else {
+            htmlContent = createAuthMail((code));
+        }
+
+        helper.setText(htmlContent, true);
         javaMailSender.send(message);
 
-        return code.toString();
+        return code;
+    }
+
+    private String generateRandomCode() {
+        Random random = new SecureRandom();
+        int randomNumber = RANDOM_NUMBER_START + random.nextInt(RANDOM_NUMBER_RANGE);
+        return String.valueOf(randomNumber);
     }
 }
