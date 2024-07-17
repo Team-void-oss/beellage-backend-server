@@ -2,8 +2,10 @@ package com.oss.beellage.user.service;
 
 import static com.oss.beellage.user.exception.Message.USER_NOT_FOUND;
 
+import com.oss.beellage.user.User;
 import com.oss.beellage.user.dto.JoinRequest;
 import com.oss.beellage.user.dto.UserResponse;
+import com.oss.beellage.user.dto.UserUpdateRequest;
 import com.oss.beellage.user.exception.UserException;
 import com.oss.beellage.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,5 +34,20 @@ public class UserServiceImpl implements UserService {
                         USER_NOT_FOUND,
                         HttpStatus.NOT_FOUND
                 )));
+    }
+
+    @Override
+    public void modify(
+            Long id,
+            UserUpdateRequest userUpdateRequest
+    ) {
+        User user = userRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new UserException(
+                        USER_NOT_FOUND,
+                        HttpStatus.NOT_FOUND
+                ));
+
+        user.setNickname(userUpdateRequest.nickname());
+        user.setProfileImage(userUpdateRequest.profileImage());
     }
 }

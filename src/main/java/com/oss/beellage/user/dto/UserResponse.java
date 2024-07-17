@@ -17,7 +17,7 @@ public record UserResponse(
         return UserResponse.builder()
                 .id(user.getId())
                 .email(user.getEmail())
-                .nickname(user.getPassword())
+                .nickname(user.getNickname())
                 .profileImage(user.getProfileImage())
                 .createdAt(user.getCreatedAt())
                 .build();
