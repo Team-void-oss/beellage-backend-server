@@ -1,6 +1,7 @@
 package com.oss.beellage.auth.controller;
 
 import com.oss.beellage.auth.dto.EmailAuthRequest;
+import com.oss.beellage.auth.dto.JoinRequest;
 import com.oss.beellage.common.dto.CommonResponse;
 
 public interface AuthController {
@@ -9,4 +10,6 @@ public interface AuthController {
     CommonResponse<?> validateEmailCode(String email, String code);
 
     CommonResponse<?> validateNickname(String nickname);
+
+    CommonResponse<?> register(JoinRequest joinRequest);
 }

@@ -13,6 +13,7 @@ import static java.lang.Boolean.TRUE;
 import com.oss.beellage.auth.collection.EmailCodeTable;
 import com.oss.beellage.auth.collection.EmailCodeTable.EmailCode;
 import com.oss.beellage.auth.dto.EmailAuthRequest;
+import com.oss.beellage.auth.dto.JoinRequest;
 import com.oss.beellage.auth.exception.AuthException;
 import com.oss.beellage.auth.repository.UserRepository;
 import jakarta.mail.MessagingException;
@@ -24,15 +25,21 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class AuthServiceImpl implements AuthService {
+
+    //TODO: 디테일한 에러처리 해야됨
 
     private final JavaMailSender javaMailSender;
     private final UserRepository userRepository;
     private final EmailCodeTable emailCodeTable;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void validateEmail(EmailAuthRequest emailAuthRequest) {
@@ -88,6 +95,11 @@ public class AuthServiceImpl implements AuthService {
                             );
                         }
                 );
+    }
+
+    @Override
+    public void register(JoinRequest joinRequest) {
+        userRepository.save(joinRequest.toUser(passwordEncoder));
     }
 
     private String sendMail(String email) throws MessagingException {

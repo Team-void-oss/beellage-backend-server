@@ -1,6 +1,7 @@
 package com.oss.beellage.auth.controller;
 
 import com.oss.beellage.auth.dto.EmailAuthRequest;
+import com.oss.beellage.auth.dto.JoinRequest;
 import com.oss.beellage.auth.service.AuthService;
 import com.oss.beellage.common.dto.CommonResponse;
 import com.oss.beellage.common.handler.ResponseHandler;
@@ -64,5 +65,18 @@ public class AuthControllerImpl implements AuthController {
     }
 
     // TODO: 회원가입
+
+    /**
+     *
+     */
+    @Override
+    @PostMapping("/register")
+    public CommonResponse<?> register(
+            @RequestBody JoinRequest joinRequest
+    ) {
+        authService.register(joinRequest);
+        return ResponseHandler.handleResponse(HttpStatus.CREATED);
+    }
+
     // TODO: 로그인 및 JWT 발급 (어세스-쿠키, 리프레쉬-디비)
 }
