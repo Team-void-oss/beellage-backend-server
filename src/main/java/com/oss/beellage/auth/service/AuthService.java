@@ -6,4 +6,6 @@ public interface AuthService {
     void validateEmail(EmailAuthRequest emailAuthRequest);
 
     void validateEmailCode(String email, String code);
+
+    void validateNickname(String nickname);
 }

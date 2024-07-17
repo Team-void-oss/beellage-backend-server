@@ -7,4 +7,6 @@ public interface AuthController {
     CommonResponse<?> validateEmail(EmailAuthRequest emailAuthRequest);
 
     CommonResponse<?> validateEmailCode(String email, String code);
+
+    CommonResponse<?> validateNickname(String nickname);
 }

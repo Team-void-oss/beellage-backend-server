@@ -50,6 +50,19 @@ public class AuthControllerImpl implements AuthController {
     }
 
     // TODO: 닉네임 중복 검사
+
+    /**
+     *
+     */
+    @Override
+    @GetMapping("/nickname")
+    public CommonResponse<?> validateNickname(
+            @RequestParam("nickname") String nickname
+    ) {
+        authService.validateNickname(nickname);
+        return ResponseHandler.handleResponse(HttpStatus.OK);
+    }
+
     // TODO: 회원가입
     // TODO: 로그인 및 JWT 발급 (어세스-쿠키, 리프레쉬-디비)
 }

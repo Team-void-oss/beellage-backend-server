@@ -78,6 +78,18 @@ public class AuthServiceImpl implements AuthService {
         }
     }
 
+    @Override
+    public void validateNickname(String nickname) {
+        userRepository.findByNickname(nickname)
+                .ifPresent(user -> {
+                            throw new AuthException(
+                                    AUTH_ERROR_MESSAGE,
+                                    HttpStatus.CONFLICT
+                            );
+                        }
+                );
+    }
+
     private String sendMail(String email) throws MessagingException {
         String code = generateRandomCode();
         MimeMessage message = javaMailSender.createMimeMessage();
