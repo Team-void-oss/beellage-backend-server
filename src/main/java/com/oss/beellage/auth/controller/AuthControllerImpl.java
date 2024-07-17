@@ -1,7 +1,6 @@
 package com.oss.beellage.auth.controller;
 
 import com.oss.beellage.auth.dto.EmailAuthRequest;
-import com.oss.beellage.auth.dto.JoinRequest;
 import com.oss.beellage.auth.service.AuthService;
 import com.oss.beellage.common.dto.CommonResponse;
 import com.oss.beellage.common.handler.ResponseHandler;
@@ -21,8 +20,6 @@ public class AuthControllerImpl implements AuthController {
 
     private final AuthService authService;
 
-    // TODO: 이메일 인증 요청 - 인증 요청과 동시에 중복검사
-
     /**
      * 이메일 포멧은 클라이언트 측에서 검증해줘야 하고 여기로 넘어왔을 땐 정상적인 이메일 포맷임이 보장
      */
@@ -34,8 +31,6 @@ public class AuthControllerImpl implements AuthController {
         authService.validateEmail(emailAuthRequest);
         return ResponseHandler.handleResponse(HttpStatus.CREATED);
     }
-
-    // TODO: 이메일 인증 확인
 
     /**
      *
@@ -50,8 +45,6 @@ public class AuthControllerImpl implements AuthController {
         return ResponseHandler.handleResponse(HttpStatus.OK);
     }
 
-    // TODO: 닉네임 중복 검사
-
     /**
      *
      */
@@ -63,20 +56,4 @@ public class AuthControllerImpl implements AuthController {
         authService.validateNickname(nickname);
         return ResponseHandler.handleResponse(HttpStatus.OK);
     }
-
-    // TODO: 회원가입
-
-    /**
-     *
-     */
-    @Override
-    @PostMapping("/register")
-    public CommonResponse<?> register(
-            @RequestBody JoinRequest joinRequest
-    ) {
-        authService.register(joinRequest);
-        return ResponseHandler.handleResponse(HttpStatus.CREATED);
-    }
-
-    // TODO: 로그인 및 JWT 발급 (어세스-쿠키, 리프레쉬-디비)
 }

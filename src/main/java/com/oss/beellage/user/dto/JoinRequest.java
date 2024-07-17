@@ -1,6 +1,6 @@
-package com.oss.beellage.auth.dto;
+package com.oss.beellage.user.dto;
 
-import com.oss.beellage.auth.User;
+import com.oss.beellage.user.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 public record JoinRequest(
@@ -8,7 +8,7 @@ public record JoinRequest(
         String password,
         String nickname
 ) {
-    public User toUser(PasswordEncoder passwordEncoder) {
+    public User toEntity(PasswordEncoder passwordEncoder) {
         return User.builder()
                 .email(email)
                 .password(passwordEncoder.encode(password))

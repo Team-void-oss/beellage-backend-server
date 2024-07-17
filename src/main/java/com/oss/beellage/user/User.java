@@ -1,4 +1,4 @@
-package com.oss.beellage.auth;
+package com.oss.beellage.user;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

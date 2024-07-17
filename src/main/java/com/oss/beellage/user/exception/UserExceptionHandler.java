@@ -1,5 +1,6 @@
-package com.oss.beellage.auth.exception;
+package com.oss.beellage.user.exception;
 
+import com.oss.beellage.auth.exception.AuthException;
 import com.oss.beellage.common.dto.CommonResponse;
 import com.oss.beellage.common.handler.ResponseHandler;
 import jakarta.servlet.http.HttpServletRequest;
@@ -10,11 +11,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 
 @Slf4j
 @RestControllerAdvice
-public class AuthExceptionHandler extends ResponseEntityExceptionHandler {
+public class UserExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({AuthException.class})
+    @ExceptionHandler({UserException.class})
     public CommonResponse<?> handleException(HttpServletRequest request, AuthException e) {
-        log.error("Authentication Exception {} => ", e.getMessage());
+        log.error("User Exception {} => ", e.getMessage());
 
         return ResponseHandler.handleResponse(e.getHttpStatus());
     }

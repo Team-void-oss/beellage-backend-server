@@ -7,15 +7,15 @@ import static com.oss.beellage.auth.constant.ConstantsUtils.RANDOM_NUMBER_RANGE;
 import static com.oss.beellage.auth.constant.ConstantsUtils.RANDOM_NUMBER_START;
 import static com.oss.beellage.auth.constant.ConstantsUtils.createAuthMail;
 import static com.oss.beellage.auth.constant.ConstantsUtils.createGoogleAuthMail;
-import static com.oss.beellage.auth.exception.Message.AUTH_ERROR_MESSAGE;
+import static com.oss.beellage.auth.exception.Message.EMAIL_ERROR_MESSAGE;
+import static com.oss.beellage.auth.exception.Message.NICKNAME_ERROR_MESSAGE;
 import static java.lang.Boolean.TRUE;
 
 import com.oss.beellage.auth.collection.EmailCodeTable;
 import com.oss.beellage.auth.collection.EmailCodeTable.EmailCode;
 import com.oss.beellage.auth.dto.EmailAuthRequest;
-import com.oss.beellage.auth.dto.JoinRequest;
 import com.oss.beellage.auth.exception.AuthException;
-import com.oss.beellage.auth.repository.UserRepository;
+import com.oss.beellage.user.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import java.security.SecureRandom;
@@ -25,7 +25,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -39,14 +38,13 @@ public class AuthServiceImpl implements AuthService {
     private final JavaMailSender javaMailSender;
     private final UserRepository userRepository;
     private final EmailCodeTable emailCodeTable;
-    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void validateEmail(EmailAuthRequest emailAuthRequest) {
         String email = emailAuthRequest.email();
 
         if (userRepository.findByEmail(email).isPresent()) {
-            throw new AuthException(AUTH_ERROR_MESSAGE + email, HttpStatus.CONFLICT);
+            throw new AuthException(EMAIL_ERROR_MESSAGE + email, HttpStatus.CONFLICT);
         }
 
         try {
@@ -54,7 +52,7 @@ public class AuthServiceImpl implements AuthService {
             emailCodeTable.add(email, new EmailCode(code, LocalDateTime.now()));
         } catch (MessagingException messagingException) {
             throw new AuthException(
-                    AUTH_ERROR_MESSAGE,
+                    EMAIL_ERROR_MESSAGE,
                     HttpStatus.INTERNAL_SERVER_ERROR
             );
         }
@@ -65,21 +63,21 @@ public class AuthServiceImpl implements AuthService {
 
         if (!emailCodeTable.contains(email)) {
             throw new AuthException(
-                    AUTH_ERROR_MESSAGE,
+                    EMAIL_ERROR_MESSAGE,
                     HttpStatus.NOT_FOUND
             );
         }
 
         if (emailCodeTable.isTimeout(email)) {
             throw new AuthException(
-                    AUTH_ERROR_MESSAGE,
+                    EMAIL_ERROR_MESSAGE,
                     HttpStatus.REQUEST_TIMEOUT
             );
         }
 
         if (!emailCodeTable.isValidCode(email, code)) {
             throw new AuthException(
-                    AUTH_ERROR_MESSAGE,
+                    EMAIL_ERROR_MESSAGE,
                     HttpStatus.UNAUTHORIZED
             );
         }
@@ -90,16 +88,11 @@ public class AuthServiceImpl implements AuthService {
         userRepository.findByNickname(nickname)
                 .ifPresent(user -> {
                             throw new AuthException(
-                                    AUTH_ERROR_MESSAGE,
+                                    NICKNAME_ERROR_MESSAGE,
                                     HttpStatus.CONFLICT
                             );
                         }
                 );
-    }
-
-    @Override
-    public void register(JoinRequest joinRequest) {
-        userRepository.save(joinRequest.toUser(passwordEncoder));
     }
 
     private String sendMail(String email) throws MessagingException {
