@@ -7,6 +7,7 @@ import com.oss.beellage.user.dto.UserUpdateRequest;
 import com.oss.beellage.user.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,5 +50,12 @@ public class UserControllerImpl implements UserController {
         return ResponseHandler.handleResponse(HttpStatus.NO_CONTENT);
     }
 
-    // TODO: 로그인 및 JWT 발급
+    @Override
+    @DeleteMapping("/{userId}")
+    public CommonResponse<?> withdraw(
+            @PathVariable("userId") Long id
+    ) {
+        userService.withdraw(id);
+        return ResponseHandler.handleResponse(HttpStatus.NO_CONTENT);
+    }
 }

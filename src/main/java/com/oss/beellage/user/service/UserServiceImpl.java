@@ -8,6 +8,7 @@ import com.oss.beellage.user.dto.UserResponse;
 import com.oss.beellage.user.dto.UserUpdateRequest;
 import com.oss.beellage.user.exception.UserException;
 import com.oss.beellage.user.repository.UserRepository;
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -50,4 +51,17 @@ public class UserServiceImpl implements UserService {
         user.setNickname(userUpdateRequest.nickname());
         user.setProfileImage(userUpdateRequest.profileImage());
     }
+
+    @Override
+    public void withdraw(Long id) {
+        User user = userRepository.findByIdAndDeletedAtIsNull(id)
+                .orElseThrow(() -> new UserException(
+                        USER_NOT_FOUND,
+                        HttpStatus.NOT_FOUND
+                ));
+
+        user.setDeletedAt(LocalDateTime.now());
+    }
 }
+
+

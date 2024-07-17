@@ -10,4 +10,6 @@ public interface UserController {
     CommonResponse<?> findById(Long id);
 
     CommonResponse<?> modify(Long id, UserUpdateRequest userUpdateRequest);
+
+    CommonResponse<?> withdraw(Long id);
 }
