@@ -23,41 +23,75 @@ issue-tracker/
 │   │   │   │   └── com/
 │   │   │   │       └── oss/
 │   │   │   │           └── beellage/
-│   │   │   │               ├── controller/
-│   │   │   │               │   ├── IssueController.java
-│   │   │   │               │   ├── ScheduleController.java
-│   │   │   │               ├── service/
-│   │   │   │               │   ├── IssueService.java
-│   │   │   │               │   ├── ScheduleService.java
-│   │   │   │               ├── repository/
-│   │   │   │               │   ├── IssueRepository.java
-│   │   │   │               │   ├── ScheduleRepository.java
+│   │   │   │               ├── issue/
+│   │   │   │               │   ├── controller/
+│   │   │   │               │   │   └── IssueController.java
+│   │   │   │               │   ├── service/
+│   │   │   │               │   │   └── IssueService.java
+│   │   │   │               │   ├── repository/
+│   │   │   │               │   │   └── IssueRepository.java
+│   │   │   │               │   ├── dto/
+│   │   │   │               │   │   └── IssueRequest.java
+│   │   │   │               │   ├── collection/
+│   │   │   │               │   │   └── IssueCollection.java
+│   │   │   │               │   ├── constant/
+│   │   │   │               │   │   └── IssueStatus.java
+│   │   │   │               │   ├── domain/
+│   │   │   │               │   │   └── Issue.java
+│   │   │   │               ├── schedule/
+│   │   │   │               │   ├── controller/
+│   │   │   │               │   │   └── ScheduleController.java
+│   │   │   │               │   ├── service/
+│   │   │   │               │   │   └── ScheduleService.java
+│   │   │   │               │   ├── repository/
+│   │   │   │               │   │   └── ScheduleRepository.java
+│   │   │   │               │   ├── dto/
+│   │   │   │               │   │   └── ScheduleRequest.java
+│   │   │   │               │   ├── collection/
+│   │   │   │               │   │   └── ScheduleCollection.java
+│   │   │   │               ├── project/
+│   │   │   │               │   ├── controller/
+│   │   │   │               │   │   └── ProjectController.java
+│   │   │   │               │   ├── service/
+│   │   │   │               │   │   └── ProjectService.java
+│   │   │   │               │   ├── repository/
+│   │   │   │               │   │   └── ProjectRepository.java
+│   │   │   │               │   ├── domain/
+│   │   │   │               │   │   └── Project.java
+│   │   │   │               ├── team/
+│   │   │   │               │   ├── controller/
+│   │   │   │               │   │   └── TeamController.java
+│   │   │   │               │   ├── service/
+│   │   │   │               │   │   └── TeamService.java
+│   │   │   │               │   ├── repository/
+│   │   │   │               │   │   └── TeamRepository.java
+│   │   │   │               │   ├── domain/
+│   │   │   │               │   │   └── Team.java
 │   │   │   │               ├── exception/
-│   │   │   │               │   ├── ResourceNotFoundException.java
-│   │   │   │               ├── dto/
-│   │   │   │               │   ├── IssueRequest.java
-│   │   │   │               │   ├── ScheduleRequest.java
-│   │   │   │               ├── collection/
-│   │   │   │               │   ├── IssueCollection.java
-│   │   │   │               │   ├── ScheduleCollection.java
-│   │   │   │               ├── constant/
-│   │   │   │               │   ├── IssueStatus.java
-│   │   │   │               ├── domain/
-│   │   │   │               │   ├── Issue.java
-│   │   │   │               │   ├── Schedule.java
-│   │   │   │               │   ├── Project.java
-│   │   │   │               │   ├── Team.java
+│   │   │   │               │   └── ResourceNotFoundException.java
 │   │   │   ├── resources/
-│   │   │   │   ├── application.properties
+│   │   │   │   └── application.properties
 │   │   ├── test/
 │   │   │   ├── java/
 │   │   │   │   └── com/
 │   │   │   │       └── oss/
 │   │   │   │           └── beellage/
-│   │   │   │               ├── BeellageApplicationTests.java
-│   ├── build.gradle
+│   │   │   │               ├── issue/
+│   │   │   │               │   └── service/
+│   │   │   │               │       └── IssueServiceTests.java
+│   │   │   │               ├── schedule/
+│   │   │   │               │   └── service/
+│   │   │   │               │       └── ScheduleServiceTests.java
+│   │   │   │               ├── project/
+│   │   │   │               │   └── service/
+│   │   │   │               │       └── ProjectServiceTests.java
+│   │   │   │               ├── team/
+│   │   │   │               │   └── service/
+│   │   │   │               │       └── TeamServiceTests.java
 │   ├── Dockerfile
+│   ├── build.gradle
 │   ├── settings.gradle
+├── docker-compose.yml
 ```
 
 ## API 엔드포인트
