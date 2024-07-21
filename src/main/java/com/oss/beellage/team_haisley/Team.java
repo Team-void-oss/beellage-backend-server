@@ -1,4 +1,4 @@
-package com.oss.beellage.team.domain;
+package com.oss.beellage.team_haisley;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

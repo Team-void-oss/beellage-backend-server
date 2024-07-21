@@ -1,6 +1,7 @@
-package com.oss.beellage.chat.domain;
+package com.oss.beellage.chat;
 
-import com.oss.beellage.team.domain.Team;
+import com.oss.beellage.team_haisley.Team;
+import com.oss.beellage.user_haisley.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,16 +15,20 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @Entity
-public class ChatMessage {
+public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String sender;
-    private String content;
-    private LocalDateTime timestamp;
+    private String message;
+    private LocalDateTime createdAt;
+    private LocalDateTime deletedAt;
 
     @ManyToOne
     @JoinColumn(name = "team_id")
     private Team team;
+
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User sender;
 }
 

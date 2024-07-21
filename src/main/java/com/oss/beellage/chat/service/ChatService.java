@@ -1,11 +1,11 @@
 package com.oss.beellage.chat.service;
 
-import com.oss.beellage.chat.domain.ChatMessage;
+import com.oss.beellage.chat.Chat;
 
 import java.util.List;
 
 public interface ChatService {
-    public ChatMessage saveMessage(Long teamId, String sender, String content);
+    public Chat saveMessage(Long teamId, Long userId, String content);
 
-    public List<ChatMessage> getMessagesForTeam(Long teamId);
+    public List<Chat> getMessagesForTeam(Long teamId);
 }

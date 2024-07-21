@@ -1,9 +1,11 @@
 package com.oss.beellage.chat.service;
 
-import com.oss.beellage.chat.dao.ChatMessageRepository;
-import com.oss.beellage.chat.domain.ChatMessage;
-import com.oss.beellage.team.dao.TeamRepository;
-import com.oss.beellage.team.domain.Team;
+import com.oss.beellage.chat.Chat;
+import com.oss.beellage.chat.repository.ChatRepository;
+import com.oss.beellage.team_haisley.Team;
+import com.oss.beellage.team_haisley.repository.TeamRepository;
+import com.oss.beellage.user_haisley.User;
+import com.oss.beellage.user_haisley.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -11,26 +13,30 @@ import java.util.List;
 
 @Service
 public class ChatServiceImpl implements ChatService {
-    private final ChatMessageRepository chatMessageRepository;
+    private final ChatRepository chatMessageRepository;
     private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
 
-    public ChatServiceImpl(ChatMessageRepository chatMessageRepository, TeamRepository teamRepository) {
+    public ChatServiceImpl(ChatRepository chatMessageRepository, TeamRepository teamRepository, UserRepository userRepository) {
         this.chatMessageRepository = chatMessageRepository;
         this.teamRepository = teamRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
-    public List<ChatMessage> getMessagesForTeam(Long teamId) {
+    public List<Chat> getMessagesForTeam(Long teamId) {
         return chatMessageRepository.findByTeamId(teamId);
     }
 
     @Override
-    public ChatMessage saveMessage(Long teamId, String sender, String content) {
+    public Chat saveMessage(Long teamId, Long userId, String content) {
         Team team = teamRepository.findById(teamId).orElseThrow(() -> new RuntimeException("Team not found"));
-        ChatMessage message = ChatMessage.builder()
-                .content(content)
-                .sender(sender)
-                .timestamp(LocalDateTime.now())
+        User user = userRepository.findById(userId).orElseThrow(() -> new RuntimeException("User not found"));
+
+        Chat message = Chat.builder()
+                .message(content)
+                .sender(user)
+                .createdAt(LocalDateTime.now())
                 .team(team)
                 .build();
         return chatMessageRepository.save(message);
