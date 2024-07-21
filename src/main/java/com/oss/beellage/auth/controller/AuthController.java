@@ -9,4 +9,8 @@ public interface AuthController {
     CommonResponse<?> validateEmailCode(String email, String code);
 
     CommonResponse<?> validateNickname(String nickname);
+
+    CommonResponse<?> findEmailByNickname(String nickname);
+
+//    CommonResponse<?> resetPassword();
 }

@@ -14,7 +14,9 @@ import static java.lang.Boolean.TRUE;
 import com.oss.beellage.auth.collection.EmailCodeTable;
 import com.oss.beellage.auth.collection.EmailCodeTable.EmailCode;
 import com.oss.beellage.auth.dto.EmailAuthRequest;
+import com.oss.beellage.auth.dto.EmailResponse;
 import com.oss.beellage.auth.exception.AuthException;
+import com.oss.beellage.user.User;
 import com.oss.beellage.user.repository.UserRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
@@ -93,6 +95,19 @@ public class AuthServiceImpl implements AuthService {
                             );
                         }
                 );
+    }
+
+    @Override
+    public EmailResponse findEmailByNickname(String nickname) {
+        User user = userRepository.findByNickname(nickname)
+                .orElseThrow(() ->
+                        new AuthException(
+                                NICKNAME_ERROR_MESSAGE,
+                                HttpStatus.NOT_FOUND
+                        )
+                );
+
+        return new EmailResponse(user.getEmail());
     }
 
     private String sendMail(String email) throws MessagingException {

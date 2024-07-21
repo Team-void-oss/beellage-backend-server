@@ -20,9 +20,6 @@ public class AuthControllerImpl implements AuthController {
 
     private final AuthService authService;
 
-    /**
-     * 이메일 포멧은 클라이언트 측에서 검증해줘야 하고 여기로 넘어왔을 땐 정상적인 이메일 포맷임이 보장
-     */
     @Override
     @PostMapping("/email")
     public CommonResponse<?> validateEmail(
@@ -55,5 +52,18 @@ public class AuthControllerImpl implements AuthController {
     ) {
         authService.validateNickname(nickname);
         return ResponseHandler.handleResponse(HttpStatus.OK);
+    }
+
+    //FIXME: 이후에 유저 실명과 주민번호를 가입할 때 추가하고 계정 찾기에 사용하도록 수정하는 것이 바람직할 듯
+
+    @Override
+    @GetMapping("/login-email")
+    public CommonResponse<?> findEmailByNickname(
+            @RequestParam("nickname") String nickname
+    ) {
+        return ResponseHandler.handleResponse(
+                authService.findEmailByNickname(nickname),
+                HttpStatus.OK
+        );
     }
 }
