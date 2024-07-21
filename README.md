@@ -23,71 +23,109 @@ issue-tracker/
 │   │   │   │   └── com/
 │   │   │   │       └── oss/
 │   │   │   │           └── beellage/
-│   │   │   │               ├── issue/
+│   │   │   │               ├── calendar/
 │   │   │   │               │   ├── controller/
-│   │   │   │               │   │   └── IssueController.java
+│   │   │   │               │   │   └── CalendarController.java
 │   │   │   │               │   ├── service/
-│   │   │   │               │   │   └── IssueService.java
-│   │   │   │               │   ├── repository/
-│   │   │   │               │   │   └── IssueRepository.java
-│   │   │   │               │   ├── dto/
-│   │   │   │               │   │   └── IssueRequest.java
+│   │   │   │               │   │   └── CalendarService.java
 │   │   │   │               │   ├── collection/
-│   │   │   │               │   │   └── IssueCollection.java
-│   │   │   │               │   ├── constant/
-│   │   │   │               │   │   └── IssueStatus.java
+│   │   │   │               │   │   └── CalendarCollection.java
 │   │   │   │               │   ├── domain/
-│   │   │   │               │   │   └── Issue.java
+│   │   │   │               │   │   └── Calendar.java
+│   │   │   │               │   ├── dto/
+│   │   │   │               │   │   └── CalendarRequest.java
+│   │   │   │               │   ├── repository/
+│   │   │   │               │   │   └── CalendarRepository.java
 │   │   │   │               ├── schedule/
 │   │   │   │               │   ├── controller/
 │   │   │   │               │   │   └── ScheduleController.java
 │   │   │   │               │   ├── service/
 │   │   │   │               │   │   └── ScheduleService.java
-│   │   │   │               │   ├── repository/
-│   │   │   │               │   │   └── ScheduleRepository.java
-│   │   │   │               │   ├── dto/
-│   │   │   │               │   │   └── ScheduleRequest.java
 │   │   │   │               │   ├── collection/
 │   │   │   │               │   │   └── ScheduleCollection.java
+│   │   │   │               │   ├── domain/
+│   │   │   │               │   │   └── Schedule.java
+│   │   │   │               │   ├── dto/
+│   │   │   │               │   │   └── ScheduleRequest.java
+│   │   │   │               │   ├── repository/
+│   │   │   │               │   │   └── ScheduleRepository.java
+│   │   │   │               ├── issue/
+│   │   │   │               │   ├── controller/
+│   │   │   │               │   │   └── IssueController.java
+│   │   │   │               │   ├── service/
+│   │   │   │               │   │   └── IssueService.java
+│   │   │   │               │   ├── collection/
+│   │   │   │               │   │   └── IssueCollection.java
+│   │   │   │               │   ├── domain/
+│   │   │   │               │   │   └── Issue.java
+│   │   │   │               │   ├── dto/
+│   │   │   │               │   │   └── IssueRequest.java
+│   │   │   │               │   ├── repository/
+│   │   │   │               │   │   └── IssueRepository.java
+│   │   │   │               │   ├── constant/
+│   │   │   │               │   │   └── IssueStatus.java
 │   │   │   │               ├── project/
 │   │   │   │               │   ├── controller/
 │   │   │   │               │   │   └── ProjectController.java
 │   │   │   │               │   ├── service/
 │   │   │   │               │   │   └── ProjectService.java
-│   │   │   │               │   ├── repository/
-│   │   │   │               │   │   └── ProjectRepository.java
+│   │   │   │               │   ├── collection/
+│   │   │   │               │   │   └── ProjectCollection.java
 │   │   │   │               │   ├── domain/
 │   │   │   │               │   │   └── Project.java
+│   │   │   │               │   ├── dto/
+│   │   │   │               │   │   └── ProjectRequest.java
+│   │   │   │               │   ├── repository/
+│   │   │   │               │   │   └── ProjectRepository.java
 │   │   │   │               ├── team/
 │   │   │   │               │   ├── controller/
 │   │   │   │               │   │   └── TeamController.java
 │   │   │   │               │   ├── service/
 │   │   │   │               │   │   └── TeamService.java
-│   │   │   │               │   ├── repository/
-│   │   │   │               │   │   └── TeamRepository.java
+│   │   │   │               │   ├── collection/
+│   │   │   │               │   │   └── TeamCollection.java
 │   │   │   │               │   ├── domain/
 │   │   │   │               │   │   └── Team.java
-│   │   │   │               ├── exception/
-│   │   │   │               │   └── ResourceNotFoundException.java
-│   │   │   ├── resources/
-│   │   │   │   └── application.properties
-│   │   ├── test/
-│   │   │   ├── java/
-│   │   │   │   └── com/
-│   │   │   │       └── oss/
-│   │   │   │           └── beellage/
-│   │   │   │               ├── issue/
-│   │   │   │               │   └── service/
-│   │   │   │               │       └── IssueServiceTests.java
-│   │   │   │               ├── schedule/
-│   │   │   │               │   └── service/
-│   │   │   │               │       └── ScheduleServiceTests.java
-│   │   │   │               ├── project/
-│   │   │   │               │   └── service/
-│   │   │   │               │       └── ProjectServiceTests.java
-│   │   │   │               ├── team/
-│   │   │   │               │   └── service/
-│   │   │   │               │       └── TeamServiceTests.java
+│   │   │   │               │   ├── dto/
+│   │   │   │               │   │   └── TeamRequest.java
+│   │   │   │               │   ├── repository/
+│   │   │   │               │   │   └── TeamRepository.java
+│   │   │   │               ├── user/
+│   │   │   │               │   ├── controller/
+│   │   │   │               │   │   └── UserController.java
+│   │   │   │               │   ├── service/
+│   │   │   │               │   │   └── UserService.java
+│   │   │   │               │   ├── collection/
+│   │   │   │               │   │   └── UserCollection.java
+│   │   │   │               │   ├── domain/
+│   │   │   │               │   │   └── User.java
+│   │   │   │               │   ├── dto/
+│   │   │   │               │   │   └── UserRequest.java
+│   │   │   │               │   ├── repository/
+│   │   │   │               │   │   └── UserRepository.java
+│   │   │   ├── test/
+│   │   │   │   ├── java/
+│   │   │   │   │   └── com/
+│   │   │   │   │       └── oss/
+│   │   │   │   │           └── beellage/
+│   │   │   │   │               ├── calendar/
+│   │   │   │   │               │   └── service/
+│   │   │   │   │               │       └── CalendarServiceTests.java
+│   │   │   │   │               ├── schedule/
+│   │   │   │   │               │   └── service/
+│   │   │   │   │               │       └── ScheduleServiceTests.java
+│   │   │   │   │               ├── issue/
+│   │   │   │   │               │   └── service/
+│   │   │   │   │               │       └── IssueServiceTests.java
+│   │   │   │   │               ├── project/
+│   │   │   │   │               │   └── service/
+│   │   │   │   │               │       └── ProjectServiceTests.java
+│   │   │   │   │               ├── team/
+│   │   │   │   │               │   └── service/
+│   │   │   │   │               │       └── TeamServiceTests.java
+│   │   │   │   │               ├── user/
+│   │   │   │   │               │   └── service/
+│   │   │   │   │               │       └── UserServiceTests.java
 │   ├── Dockerfile
 │   ├── build.gradle
 │   ├── settings.gradle
