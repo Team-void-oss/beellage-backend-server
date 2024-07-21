@@ -11,11 +11,17 @@ import static com.oss.beellage.auth.exception.Message.EMAIL_ERROR_MESSAGE;
 import static com.oss.beellage.auth.exception.Message.NICKNAME_ERROR_MESSAGE;
 import static java.lang.Boolean.TRUE;
 
+import com.oss.beellage.auth.RefreshToken;
 import com.oss.beellage.auth.collection.EmailCodeTable;
 import com.oss.beellage.auth.collection.EmailCodeTable.EmailCode;
 import com.oss.beellage.auth.dto.EmailAuthRequest;
 import com.oss.beellage.auth.dto.EmailResponse;
+import com.oss.beellage.auth.dto.LoginRequest;
+import com.oss.beellage.auth.dto.LoginSuccessResult;
 import com.oss.beellage.auth.exception.AuthException;
+import com.oss.beellage.auth.repository.RefreshTokenRepository;
+import com.oss.beellage.jwt.JWTTokens;
+import com.oss.beellage.jwt.JWTUtil;
 import com.oss.beellage.user.User;
 import com.oss.beellage.user.repository.UserRepository;
 import jakarta.mail.MessagingException;
@@ -27,6 +33,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -37,9 +44,12 @@ public class AuthServiceImpl implements AuthService {
 
     //TODO: 디테일한 에러처리 해야됨
 
+    private final JWTUtil jwtUtil;
     private final JavaMailSender javaMailSender;
-    private final UserRepository userRepository;
     private final EmailCodeTable emailCodeTable;
+    private final PasswordEncoder passwordEncoder;
+    private final UserRepository userRepository;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     @Override
     public void validateEmail(EmailAuthRequest emailAuthRequest) {
@@ -108,6 +118,30 @@ public class AuthServiceImpl implements AuthService {
                 );
 
         return new EmailResponse(user.getEmail());
+    }
+
+    @Override
+    public LoginSuccessResult login(LoginRequest loginRequest) {
+        User user = userRepository.findByEmail(loginRequest.getEmail())
+                .orElseThrow(() -> new AuthException("", HttpStatus.NOT_FOUND));
+
+        if (!passwordEncoder.matches(loginRequest.getPassword(), user.getPassword())) {
+            throw new AuthException("", HttpStatus.UNAUTHORIZED);
+        }
+
+        JWTTokens jwtTokens = jwtUtil.createJwt(user.getId());
+
+        refreshTokenRepository.save(
+                RefreshToken.builder()
+                        .user(user)
+                        .token(jwtTokens.refreshToken())
+                        .build()
+        );
+
+        return LoginSuccessResult.builder()
+                .userId(user.getId())
+                .accessToken(jwtTokens.accessToken())
+                .build();
     }
 
     private String sendMail(String email) throws MessagingException {

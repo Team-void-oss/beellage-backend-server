@@ -34,10 +34,8 @@ public class JWTFilter extends OncePerRequestFilter {
     private final UserRepository userRepository;
 
     private final List<String> EXCLUDE_URLS = Arrays.asList(
-            "/api/v1/auth/login",
             "/api/v1/auth",
             "/api/v1/users",
-            "/api/v1/test/unauth",
             "/h2-console"
     );
 
@@ -57,7 +55,7 @@ public class JWTFilter extends OncePerRequestFilter {
             return;
         }
 
-        Cookie[] cookies = request.getCookies(); // 어세스 토큰이 들어있는 쿠키가 없다면 아직 로그인하지 않은 상태와 동일
+        Cookie[] cookies = request.getCookies();
         if (cookies == null) {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             return;
@@ -84,16 +82,15 @@ public class JWTFilter extends OncePerRequestFilter {
         }
 
         try {
-            if (isExpired(authorization)) { // 만료되었다면
+            if (isExpired(authorization)) {
                 String refreshToken = findRefreshToken(userId).getToken();
 
-                if (isExpired(refreshToken)) { // 리프레쉬도 만료되었다면
+                if (isExpired(refreshToken)) {
                     discardRefreshToken(userId);
                     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                     return;
                 }
 
-                // 리프레쉬 토큰이 살아있다면
                 JWTTokens jwtTokens = reissueJwt(userId);
                 discardRefreshToken(userId);
                 saveRefreshToken(user, jwtTokens.refreshToken());
