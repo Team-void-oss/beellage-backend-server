@@ -4,8 +4,9 @@ import lombok.Data;
 
 @Data
 public class IssueRequest {
-    private String title;
+    private Long projectId;
+    private Long creatorId;
+    private Long assignedUser;
+    private Integer status;
     private String description;
-    private Long assignedTo;
-    private String status;
 }

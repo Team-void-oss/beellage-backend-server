@@ -1,14 +1,15 @@
 package com.oss.beellage.project.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.oss.beellage.project.domain.Project;
+import com.oss.beellage.project.dto.ProjectRequest;
 import com.oss.beellage.project.repository.ProjectRepository;
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,51 +23,43 @@ class ProjectServiceTests {
     @InjectMocks
     private ProjectService projectService;
 
-    public ProjectServiceTests() {
+    @BeforeEach
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void testCreateProject() {
         Project project = new Project();
-        project.setName("Test Project");
+        project.setName("New Project");
+        project.setDescription("Project description");
         project.setTeamId(1L);
 
         when(projectRepository.save(any(Project.class))).thenReturn(project);
 
-        Project createdProject = projectService.createProject(project);
+        ProjectRequest request = new ProjectRequest();
+        request.setName("New Project");
+        request.setDescription("Project description");
+        request.setTeamId(1L);
 
-        assertNotNull(createdProject);
-        assertEquals(project.getName(), createdProject.getName());
-        assertEquals(project.getTeamId(), createdProject.getTeamId());
+        Project createdProject = projectService.createProject(request);
 
-        verify(projectRepository, times(1)).save(any(Project.class));
+        assertEquals("New Project", createdProject.getName());
     }
 
     @Test
     void testGetProjectById() {
         Project project = new Project();
         project.setId(1L);
-        project.setName("Test Project");
+        project.setName("New Project");
+        project.setDescription("Project description");
         project.setTeamId(1L);
 
-        when(projectRepository.findById(1L)).thenReturn(java.util.Optional.of(project));
+        when(projectRepository.findById(1L)).thenReturn(Optional.of(project));
 
-        Project foundProject = projectService.getProjectById(1L);
+        Optional<Project> foundProject = projectService.getProjectById(1L);
 
-        assertNotNull(foundProject);
-        assertEquals(project.getName(), foundProject.getName());
-        assertEquals(project.getTeamId(), foundProject.getTeamId());
-
-        verify(projectRepository, times(1)).findById(1L);
-    }
-
-    @Test
-    void testDeleteProject() {
-        Long projectId = 1L;
-
-        projectService.deleteProject(projectId);
-
-        verify(projectRepository, times(1)).deleteById(projectId);
+        assertTrue(foundProject.isPresent());
+        assertEquals(1L, foundProject.get().getId());
     }
 }

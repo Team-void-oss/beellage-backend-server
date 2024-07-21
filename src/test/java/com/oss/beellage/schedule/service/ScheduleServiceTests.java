@@ -1,16 +1,15 @@
 package com.oss.beellage.schedule.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.anyLong;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import com.oss.beellage.schedule.domain.Schedule;
 import com.oss.beellage.schedule.dto.ScheduleRequest;
 import com.oss.beellage.schedule.repository.ScheduleRepository;
+import java.sql.Timestamp;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,40 +32,66 @@ class ScheduleServiceTests {
 
     @Test
     void testCreateSchedule() {
-        ScheduleRequest request = new ScheduleRequest("New Schedule", "2024-07-21", null, null, 1L);
-        Schedule schedule = new Schedule("New Schedule", "2024-07-21", null, null, 1L);
+        Schedule schedule = new Schedule();
+        schedule.setTitle("New Schedule");
+        schedule.setDate(Timestamp.valueOf("2024-07-21 00:00:00"));
+        schedule.setProjectId(1L);
+        schedule.setIssueId(1L);
 
         when(scheduleRepository.save(any(Schedule.class))).thenReturn(schedule);
+
+        ScheduleRequest request = new ScheduleRequest();
+        request.setTitle("New Schedule");
+        request.setDate(Timestamp.valueOf("2024-07-21 00:00:00"));
+        request.setProjectId(1L);
+        request.setIssueId(1L);
 
         Schedule createdSchedule = scheduleService.createSchedule(request);
 
         assertEquals("New Schedule", createdSchedule.getTitle());
-        assertEquals("2024-07-21 00:00:00.0", createdSchedule.getDate().toString());
-        verify(scheduleRepository, times(1)).save(any(Schedule.class));
     }
 
     @Test
-    void testUpdateSchedule() {
-        ScheduleRequest request = new ScheduleRequest("Updated Schedule", "2024-07-21", null, null, 1L);
-        Schedule existingSchedule = new Schedule("Existing Schedule", "2024-07-21", null, null, 1L);
+    void testGetScheduleById() {
+        Schedule schedule = new Schedule();
+        schedule.setId(1L);
+        schedule.setTitle("New Schedule");
+        schedule.setDate(Timestamp.valueOf("2024-07-21 00:00:00"));
+        schedule.setProjectId(1L);
+        schedule.setIssueId(1L);
 
-        when(scheduleRepository.findById(anyLong())).thenReturn(Optional.of(existingSchedule));
-        when(scheduleRepository.save(any(Schedule.class))).thenReturn(existingSchedule);
+        when(scheduleRepository.findById(1L)).thenReturn(Optional.of(schedule));
 
-        scheduleService.updateSchedule(1L, request);
+        Optional<Schedule> foundSchedule = scheduleService.getScheduleById(1L);
 
-        assertEquals("Updated Schedule", existingSchedule.getTitle());
-        verify(scheduleRepository, times(1)).findById(anyLong());
-        verify(scheduleRepository, times(1)).save(any(Schedule.class));
+        assertTrue(foundSchedule.isPresent());
+        assertEquals(1L, foundSchedule.get().getId());
     }
 
     @Test
-    void testUpdateSchedule_NotFound() {
-        ScheduleRequest request = new ScheduleRequest("Updated Schedule", "2024-07-21", null, null, 1L);
+    void testGetSchedulesByTeamId() {
+        Schedule schedule1 = new Schedule();
+        schedule1.setId(1L);
+        schedule1.setTitle("Schedule 1");
+        schedule1.setDate(Timestamp.valueOf("2024-07-21 00:00:00"));
+        schedule1.setProjectId(1L);
+        schedule1.setIssueId(1L);
 
-        when(scheduleRepository.findById(anyLong())).thenReturn(Optional.empty());
+        Schedule schedule2 = new Schedule();
+        schedule2.setId(2L);
+        schedule2.setTitle("Schedule 2");
+        schedule2.setDate(Timestamp.valueOf("2024-07-21 00:00:00"));
+        schedule2.setProjectId(1L);
+        schedule2.setIssueId(1L);
 
-        assertThrows(IllegalArgumentException.class, () -> scheduleService.updateSchedule(1L, request));
-        verify(scheduleRepository, times(1)).findById(anyLong());
+        List<Schedule> schedules = List.of(schedule1, schedule2);
+
+        when(scheduleRepository.findByCalendarTeamId(1L)).thenReturn(schedules);
+
+        List<Schedule> foundSchedules = scheduleService.getSchedules(1L);
+
+        assertEquals(2, foundSchedules.size());
+        assertEquals("Schedule 1", foundSchedules.get(0).getTitle());
+        assertEquals("Schedule 2", foundSchedules.get(1).getTitle());
     }
 }

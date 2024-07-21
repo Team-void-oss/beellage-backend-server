@@ -1,14 +1,15 @@
 package com.oss.beellage.team.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.oss.beellage.team.domain.Team;
+import com.oss.beellage.team.dto.TeamRequest;
 import com.oss.beellage.team.repository.TeamRepository;
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -22,51 +23,46 @@ class TeamServiceTests {
     @InjectMocks
     private TeamService teamService;
 
-    public TeamServiceTests() {
+    @BeforeEach
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void testCreateTeam() {
         Team team = new Team();
-        team.setName("Test Team");
-        team.setHostId(1L);
+        team.setName("New Team");
+        team.setDescription("Team description");
+        team.setHostId(1L);  // hostId 설정
 
         when(teamRepository.save(any(Team.class))).thenReturn(team);
 
-        Team createdTeam = teamService.createTeam(team);
+        TeamRequest request = new TeamRequest();
+        request.setName("New Team");
+        request.setDescription("Team description");
+        request.setHostId(1L);  // hostId 설정
 
-        assertNotNull(createdTeam);
-        assertEquals(team.getName(), createdTeam.getName());
-        assertEquals(team.getHostId(), createdTeam.getHostId());
+        Team createdTeam = teamService.createTeam(request);
 
-        verify(teamRepository, times(1)).save(any(Team.class));
+        assertEquals("New Team", createdTeam.getName());
+        assertEquals("Team description", createdTeam.getDescription());
+        assertEquals(1L, createdTeam.getHostId());  // hostId 검증
     }
 
     @Test
     void testGetTeamById() {
         Team team = new Team();
         team.setId(1L);
-        team.setName("Test Team");
-        team.setHostId(1L);
+        team.setName("New Team");
+        team.setDescription("Team description");
+        team.setHostId(1L);  // hostId 설정
 
-        when(teamRepository.findById(1L)).thenReturn(java.util.Optional.of(team));
+        when(teamRepository.findById(1L)).thenReturn(Optional.of(team));
 
-        Team foundTeam = teamService.getTeamById(1L);
+        Optional<Team> foundTeam = teamService.getTeamById(1L);
 
-        assertNotNull(foundTeam);
-        assertEquals(team.getName(), foundTeam.getName());
-        assertEquals(team.getHostId(), foundTeam.getHostId());
-
-        verify(teamRepository, times(1)).findById(1L);
-    }
-
-    @Test
-    void testDeleteTeam() {
-        Long teamId = 1L;
-
-        teamService.deleteTeam(teamId);
-
-        verify(teamRepository, times(1)).deleteById(teamId);
+        assertTrue(foundTeam.isPresent());
+        assertEquals(1L, foundTeam.get().getId());
+        assertEquals(1L, foundTeam.get().getHostId());  // hostId 검증
     }
 }

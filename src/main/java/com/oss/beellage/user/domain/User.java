@@ -1,4 +1,5 @@
-package com.oss.beellage.issue.domain;
+package com.oss.beellage.user.domain;
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -10,24 +11,24 @@ import java.sql.Timestamp;
 import lombok.Data;
 
 @Entity
-@Table(name = "issues")
+@Table(name = "users")
 @Data
-public class Issue {
+public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "project_id", nullable = false)
-    private Long projectId;
+    @Column(name = "email", nullable = false, unique = true)
+    private String email;
 
-    @Column(name = "creator_id", nullable = false)
-    private Long creatorId;
+    @Column(name = "password", nullable = false)
+    private String password;
 
-    @Column(name = "assigned_user", nullable = false)
-    private Long assignedUser;
+    @Column(name = "nickname", nullable = false, unique = true)
+    private String nickname;
 
-    @Column(name = "status", nullable = false)
-    private Integer status;
+    @Column(name = "profile_image")
+    private String profileImage;
 
     @Column(name = "created_at", nullable = false)
     private Timestamp createdAt;
@@ -37,8 +38,4 @@ public class Issue {
 
     @Column(name = "deleted_at")
     private Timestamp deletedAt;
-
-    @Column(name = "description", nullable = false)
-    private String description;
-
 }

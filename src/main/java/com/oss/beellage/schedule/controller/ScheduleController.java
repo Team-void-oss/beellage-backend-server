@@ -4,6 +4,7 @@ import com.oss.beellage.schedule.domain.Schedule;
 import com.oss.beellage.schedule.dto.ScheduleRequest;
 import com.oss.beellage.schedule.service.ScheduleService;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/work/teams/{teamId}/schedules")
 public class ScheduleController {
+
     @Autowired
     private ScheduleService scheduleService;
 
@@ -54,5 +56,12 @@ public class ScheduleController {
                                                                 @RequestParam Long projectId) {
         List<Schedule> schedules = scheduleService.getSchedulesByProject(projectId);
         return new ResponseEntity<>(schedules, HttpStatus.OK);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Schedule> getScheduleById(@PathVariable Long id) {
+        Optional<Schedule> schedule = scheduleService.getScheduleById(id);
+        return schedule.map(value -> new ResponseEntity<>(value, HttpStatus.OK))
+                .orElseGet(() -> new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

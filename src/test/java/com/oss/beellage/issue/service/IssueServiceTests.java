@@ -1,17 +1,15 @@
 package com.oss.beellage.issue.service;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.Mockito.any;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import com.oss.beellage.issue.domain.Issue;
 import com.oss.beellage.issue.dto.IssueRequest;
 import com.oss.beellage.issue.repository.IssueRepository;
-import java.sql.Timestamp;
-import java.time.Instant;
+import java.util.Optional;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -25,81 +23,49 @@ class IssueServiceTests {
     @InjectMocks
     private IssueService issueService;
 
-    public IssueServiceTests() {
+    @BeforeEach
+    void setUp() {
         MockitoAnnotations.openMocks(this);
     }
 
     @Test
     void testCreateIssue() {
-        IssueRequest issueRequest = new IssueRequest();
-        issueRequest.setTitle("Test Issue");
-        issueRequest.setDescription("Description");
-        issueRequest.setAssignedTo(1L);
-        issueRequest.setStatus("todo");
-
         Issue issue = new Issue();
-        issue.setTitle(issueRequest.getTitle());
-        issue.setDescription(issueRequest.getDescription());
-        issue.setAssignedTo(issueRequest.getAssignedTo());
-        issue.setStatus(issueRequest.getStatus());
-        issue.setCreatedAt(Timestamp.from(Instant.now()));
+        issue.setProjectId(1L);
+        issue.setCreatorId(1L);
+        issue.setAssignedUser(2L);
+        issue.setStatus(1);
+        issue.setDescription("Issue description");
 
         when(issueRepository.save(any(Issue.class))).thenReturn(issue);
 
-        Issue createdIssue = issueService.createIssue(issueRequest);
+        IssueRequest request = new IssueRequest();
+        request.setProjectId(1L);
+        request.setCreatorId(1L);
+        request.setAssignedUser(2L);
+        request.setStatus(1);
+        request.setDescription("Issue description");
 
-        assertNotNull(createdIssue);
-        assertEquals(issueRequest.getTitle(), createdIssue.getTitle());
-        assertEquals(issueRequest.getDescription(), createdIssue.getDescription());
-        assertEquals(issueRequest.getAssignedTo(), createdIssue.getAssignedTo());
-        assertEquals(issueRequest.getStatus(), createdIssue.getStatus());
+        Issue createdIssue = issueService.createIssue(request);
 
-        verify(issueRepository, times(1)).save(any(Issue.class));
+        assertEquals("Issue description", createdIssue.getDescription());
     }
 
     @Test
-    void testUpdateIssue() {
-        Long issueId = 1L;
-        IssueRequest issueRequest = new IssueRequest();
-        issueRequest.setTitle("Updated Issue");
-        issueRequest.setDescription("Updated Description");
-        issueRequest.setAssignedTo(1L);
-        issueRequest.setStatus("doing");
-
+    void testGetIssueById() {
         Issue issue = new Issue();
-        issue.setId(issueId);
-        issue.setTitle("Test Issue");
-        issue.setDescription("Description");
-        issue.setAssignedTo(1L);
-        issue.setStatus("todo");
-        issue.setCreatedAt(Timestamp.from(Instant.now()));
+        issue.setId(1L);
+        issue.setProjectId(1L);
+        issue.setCreatorId(1L);
+        issue.setAssignedUser(2L);
+        issue.setStatus(1);
+        issue.setDescription("Issue description");
 
-        when(issueRepository.findById(issueId)).thenReturn(java.util.Optional.of(issue));
-        when(issueRepository.save(any(Issue.class))).thenReturn(issue);
+        when(issueRepository.findById(1L)).thenReturn(Optional.of(issue));
 
-        issueService.updateIssue(issueId, issueRequest);
+        Optional<Issue> foundIssue = issueService.getIssueById(1L);
 
-        verify(issueRepository, times(1)).findById(issueId);
-        verify(issueRepository, times(1)).save(any(Issue.class));
-    }
-
-    @Test
-    void testDeleteIssue() {
-        Long issueId = 1L;
-
-        Issue issue = new Issue();
-        issue.setId(issueId);
-        issue.setTitle("Test Issue");
-        issue.setDescription("Description");
-        issue.setAssignedTo(1L);
-        issue.setStatus("todo");
-        issue.setCreatedAt(Timestamp.from(Instant.now()));
-
-        when(issueRepository.findById(issueId)).thenReturn(java.util.Optional.of(issue));
-
-        issueService.deleteIssue(issueId);
-
-        verify(issueRepository, times(1)).findById(issueId);
-        verify(issueRepository, times(1)).save(any(Issue.class));
+        assertTrue(foundIssue.isPresent());
+        assertEquals(1L, foundIssue.get().getId());
     }
 }

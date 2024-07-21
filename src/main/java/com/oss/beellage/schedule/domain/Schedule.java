@@ -1,41 +1,35 @@
 package com.oss.beellage.schedule.domain;
 
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.Data;
 
 @Entity
 @Table(name = "schedules")
-@Getter
-@Setter
-@NoArgsConstructor
+@Data
 public class Schedule {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String title;
-    private Timestamp date;
+    @Column(name = "calendar_id", nullable = false)
+    private Long calendarId;
+
+    @Column(name = "project_id", nullable = false)
     private Long projectId;
+
+    @Column(name = "issue_id", nullable = false)
     private Long issueId;
-    private Long teamId;
 
-    public Schedule(String title, String date, Long projectId, Long issueId, Long teamId) {
-        this.title = title;
-        this.date = Timestamp.valueOf(date + " 00:00:00"); // Assuming date is in 'yyyy-MM-dd' format
-        this.projectId = projectId;
-        this.issueId = issueId;
-        this.teamId = teamId;
-    }
+    @Column(name = "title", nullable = false)
+    private String title;
 
-    public void setDate(String date) {
-        this.date = Timestamp.valueOf(date + " 00:00:00"); // Assuming date is in 'yyyy-MM-dd' format
-    }
+    @Column(name = "date", nullable = false)
+    private Timestamp date;
 }

@@ -1,27 +1,13 @@
 package com.oss.beellage.schedule.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import java.sql.Timestamp;
+import lombok.Data;
 
-@Getter
-@Setter
+@Data
 public class ScheduleRequest {
-
-    private String title;
-    private String date; // Assuming date is in 'yyyy-MM-dd' format
+    private Long calendarId;
     private Long projectId;
     private Long issueId;
-    private Long teamId;
-
-    public ScheduleRequest() {
-        // 기본 생성자
-    }
-
-    public ScheduleRequest(String title, String date, Long projectId, Long issueId, Long teamId) {
-        this.title = title;
-        this.date = date;
-        this.projectId = projectId;
-        this.issueId = issueId;
-        this.teamId = teamId;
-    }
+    private String title;
+    private Timestamp date;
 }

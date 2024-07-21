@@ -1,24 +1,32 @@
 package com.oss.beellage.team.service;
 
 import com.oss.beellage.team.domain.Team;
+import com.oss.beellage.team.dto.TeamRequest;
 import com.oss.beellage.team.repository.TeamRepository;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class TeamService {
+
     @Autowired
     private TeamRepository teamRepository;
 
-    public Team createTeam(Team team) {
+    public Team createTeam(TeamRequest teamRequest) {
+        Team team = new Team();
+        team.setName(teamRequest.getName());
+        team.setHostId(teamRequest.getHostId());
+        team.setDescription(teamRequest.getDescription());
         return teamRepository.save(team);
     }
 
-    public Team getTeamById(Long id) {
-        return teamRepository.findById(id).orElseThrow();
+    public List<Team> getAllTeams() {
+        return teamRepository.findAll();
     }
 
-    public void deleteTeam(Long id) {
-        teamRepository.deleteById(id);
+    public Optional<Team> getTeamById(Long id) {
+        return teamRepository.findById(id);
     }
 }
