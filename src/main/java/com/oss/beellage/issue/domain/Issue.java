@@ -1,11 +1,16 @@
 package com.oss.beellage.issue.domain;
 
+import com.oss.beellage.project.domain.Project;
+import com.oss.beellage.schedule.domain.Schedule;
+import com.oss.beellage.user.domain.User;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
 import lombok.Data;
@@ -19,16 +24,16 @@ public class Issue {
     private Long id;
 
     @ManyToOne
-    @Column(name = "project_id", nullable = false)
-    private Long projectId;
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
 
     @ManyToOne
-    @Column(name = "creator_id", nullable = false)
-    private Long creatorId;
+    @JoinColumn(name = "creator_id", nullable = false)
+    private User creator;
 
     @ManyToOne
-    @Column(name = "assigned_user", nullable = false)
-    private Long assignedUser;
+    @JoinColumn(name = "assigned_user", nullable = false)
+    private User assignedUser;
 
     @Column(name = "status", nullable = false)
     private Integer status;
@@ -45,4 +50,6 @@ public class Issue {
     @Column(name = "description", nullable = false)
     private String description;
 
+    @OneToOne(mappedBy = "issue")
+    private Schedule schedule;
 }

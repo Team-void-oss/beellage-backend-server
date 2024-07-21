@@ -1,12 +1,17 @@
 package com.oss.beellage.team.domain;
 
+import com.oss.beellage.calendar.domain.Calendar;
+import com.oss.beellage.project.domain.Project;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
+import java.util.List;
 import lombok.Data;
 
 @Entity
@@ -34,4 +39,10 @@ public class Team {
 
     @Column(name = "description")
     private String description;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    private List<Project> projects;
+
+    @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
+    private List<Calendar> calendars;
 }

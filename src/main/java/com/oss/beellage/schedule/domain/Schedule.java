@@ -1,11 +1,17 @@
 package com.oss.beellage.schedule.domain;
 
 
+import com.oss.beellage.calendar.domain.Calendar;
+import com.oss.beellage.issue.domain.Issue;
+import com.oss.beellage.project.domain.Project;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
 import lombok.Data;
@@ -18,14 +24,17 @@ public class Schedule {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "calendar_id", nullable = false)
-    private Long calendarId;
+    @ManyToOne
+    @JoinColumn(name = "calendar_id", nullable = false)
+    private Calendar calendar;
 
-    @Column(name = "project_id", nullable = false)
-    private Long projectId;
+    @ManyToOne
+    @JoinColumn(name = "project_id", nullable = false)
+    private Project project;
 
-    @Column(name = "issue_id", nullable = false)
-    private Long issueId;
+    @OneToOne
+    @JoinColumn(name = "issue_id", nullable = false)
+    private Issue issue;
 
     @Column(name = "title", nullable = false)
     private String title;
