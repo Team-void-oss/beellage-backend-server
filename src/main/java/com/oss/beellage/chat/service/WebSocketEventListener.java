@@ -1,4 +1,4 @@
-package com.oss.beellage.config;
+package com.oss.beellage.chat.service;
 
 import org.springframework.context.event.EventListener;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
