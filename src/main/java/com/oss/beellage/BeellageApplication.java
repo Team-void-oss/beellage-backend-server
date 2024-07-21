@@ -5,7 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication
-@EntityScan(basePackages = {"com.oss.beellage.issue.domain", "com.oss.beellage.calendar.domain",
+@EntityScan(basePackages = {"com.oss.beellage.issue.domain", "com.oss.beellage.user.domain",
+        "com.oss.beellage.team.domain", "com.oss.beellage.calendar.domain", "com.oss.beellage.project.domain",
         "com.oss.beellage.schedule.domain"})
 public class BeellageApplication {
 

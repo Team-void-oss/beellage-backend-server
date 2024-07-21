@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import java.sql.Timestamp;
 import lombok.Data;
@@ -17,12 +18,15 @@ public class Issue {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne
     @Column(name = "project_id", nullable = false)
     private Long projectId;
 
+    @ManyToOne
     @Column(name = "creator_id", nullable = false)
     private Long creatorId;
 
+    @ManyToOne
     @Column(name = "assigned_user", nullable = false)
     private Long assignedUser;
 
