@@ -37,3 +37,7 @@ out/
 .vscode/
 
 application.properties
+
+### haisley temp entity ###
+/src/main/java/com/oss/beellage/team_haisley
+/src/main/java/com/oss/beellage/user_haisley
