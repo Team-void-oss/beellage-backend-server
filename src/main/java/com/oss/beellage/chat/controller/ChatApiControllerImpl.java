@@ -1,6 +1,7 @@
 package com.oss.beellage.chat.controller;
 
 import com.oss.beellage.chat.Chat;
+import com.oss.beellage.chat.collection.ChatConverter;
 import com.oss.beellage.chat.dto.ChatMessageDto;
 import com.oss.beellage.chat.service.ChatService;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -23,20 +24,21 @@ public class ChatApiControllerImpl implements ChatApiController {
 
     @Override
     @GetMapping
-    public List<Chat> getMessages(@PathVariable("teamId") Long teamId) {
-        return chatService.getMessagesForTeam(teamId);
+    public List<ChatMessageDto> getMessages(@PathVariable("teamId") Long teamId) {
+        return ChatConverter.convertToDto(
+                chatService.getMessagesForTeam(teamId)
+        );
     }
 
     @Override
     @PostMapping
-    public Chat sendMessage(@PathVariable("teamId") Long teamId, @RequestBody ChatMessageDto chatMessageDto) {
-        // token으로 user를 찾는 방식으로 변경 필요
-        Long userId = 1L;
-        Chat chatMessage = chatService.saveMessage(teamId, userId, chatMessageDto.getContent());
-
+    public ChatMessageDto sendMessage(@PathVariable("teamId") Long teamId, @RequestBody ChatMessageDto chatMessageDto) {
+        Chat c = chatService.saveMessage(teamId, chatMessageDto.getUserId(), chatMessageDto.getMessage());
+        ChatMessageDto dto = new ChatMessageDto(c.getId(), c.getSender().getName(), c.getMessage());
         // broadcast path
-        messagingTemplate.convertAndSend("/chatting/api/v1/work/teams/" + teamId + "/chats", chatMessageDto);
+        messagingTemplate.convertAndSend("/chatting/api/v1/work/teams/" + teamId + "/chats",
+                dto);
 
-        return chatMessage;
+        return dto;
     }
 }

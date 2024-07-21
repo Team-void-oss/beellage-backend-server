@@ -23,12 +23,10 @@ public class ChatMessageControllerImpl implements ChatMessageController {
     @Override
     @MessageMapping("/chats/{teamId}/sendMessage")
     public void sendMessage(@DestinationVariable("teamId") Long teamId, @Payload ChatMessageDto chatMessageDto) {
-        // 메시지를 데이터베이스에 저장
-        // token으로 user를 찾는 방식으로 변경 필요
-        Long userId = 1L;
-        Chat chatMessage = chatService.saveMessage(teamId, userId, chatMessageDto.getContent());
-
+        Chat c = chatService.saveMessage(teamId, chatMessageDto.getUserId(), chatMessageDto.getMessage());
         // 특정 팀의 채팅 주제로 메시지를 브로드캐스트
-        messagingTemplate.convertAndSend("/chatting/api/v1/work/teams/" + teamId + "/chats", chatMessageDto);
+        System.out.println(c.getSender().getName() + "!!!!1");
+        messagingTemplate.convertAndSend("/chatting/api/v1/work/teams/" + teamId + "/chats",
+                new ChatMessageDto(c.getId(), c.getSender().getName(), c.getMessage()));
     }
 }
