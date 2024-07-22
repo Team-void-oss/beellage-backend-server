@@ -34,7 +34,7 @@ public class ChatApiControllerImpl implements ChatApiController {
     @PostMapping
     public ChatMessageDto sendMessage(@PathVariable("teamId") Long teamId, @RequestBody ChatMessageDto chatMessageDto) {
         Chat c = chatService.saveMessage(teamId, chatMessageDto.getUserId(), chatMessageDto.getMessage());
-        ChatMessageDto dto = new ChatMessageDto(c.getId(), c.getSender().getName(), c.getMessage());
+        ChatMessageDto dto = new ChatMessageDto(c.getId(), c.getSender().getNickname(), c.getMessage());
         // broadcast path
         messagingTemplate.convertAndSend("/chatting/api/v1/work/teams/" + teamId + "/chats",
                 dto);

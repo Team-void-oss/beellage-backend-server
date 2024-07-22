@@ -12,7 +12,7 @@ public class ChatConverter {
         return chatList.stream()
                 .map(chat -> new ChatMessageDto(
                         chat.getSender().getId(),
-                        chat.getSender().getName(),
+                        chat.getSender().getNickname(),
                         chat.getMessage()))
                 .collect(Collectors.toList());
     }

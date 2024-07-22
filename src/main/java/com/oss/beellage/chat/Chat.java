@@ -1,7 +1,7 @@
 package com.oss.beellage.chat;
 
-import com.oss.beellage.team_haisley.Team;
-import com.oss.beellage.user_haisley.User;
+import com.oss.beellage.team.domain.Team;
+import com.oss.beellage.user.User;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

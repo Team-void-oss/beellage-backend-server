@@ -2,10 +2,10 @@ package com.oss.beellage.chat.service;
 
 import com.oss.beellage.chat.Chat;
 import com.oss.beellage.chat.repository.ChatRepository;
-import com.oss.beellage.team_haisley.Team;
-import com.oss.beellage.team_haisley.repository.TeamRepository;
-import com.oss.beellage.user_haisley.User;
-import com.oss.beellage.user_haisley.repository.UserRepository;
+import com.oss.beellage.team.domain.Team;
+import com.oss.beellage.team.repository.TeamRepository;
+import com.oss.beellage.user.User;
+import com.oss.beellage.user.repository.UserRepository;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;

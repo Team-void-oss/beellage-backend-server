@@ -2,18 +2,11 @@ package com.oss.beellage.issue.domain;
 
 import com.oss.beellage.project.domain.Project;
 import com.oss.beellage.schedule.domain.Schedule;
-import com.oss.beellage.user.domain.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToOne;
-import jakarta.persistence.Table;
-import java.sql.Timestamp;
+import com.oss.beellage.user.User;
+import jakarta.persistence.*;
 import lombok.Data;
+
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "issues")

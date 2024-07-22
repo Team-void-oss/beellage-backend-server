@@ -25,8 +25,7 @@ public class ChatMessageControllerImpl implements ChatMessageController {
     public void sendMessage(@DestinationVariable("teamId") Long teamId, @Payload ChatMessageDto chatMessageDto) {
         Chat c = chatService.saveMessage(teamId, chatMessageDto.getUserId(), chatMessageDto.getMessage());
         // 특정 팀의 채팅 주제로 메시지를 브로드캐스트
-        System.out.println(c.getSender().getName() + "!!!!1");
         messagingTemplate.convertAndSend("/chatting/api/v1/work/teams/" + teamId + "/chats",
-                new ChatMessageDto(c.getId(), c.getSender().getName(), c.getMessage()));
+                new ChatMessageDto(c.getId(), c.getSender().getNickname(), c.getMessage()));
     }
 }
