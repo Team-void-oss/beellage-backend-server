@@ -1,21 +1,20 @@
 package com.oss.beellage.team.service;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import com.oss.beellage.team.Team;
 import com.oss.beellage.team.dto.TeamRequest;
 import com.oss.beellage.team.repository.TeamRepository;
-
-import java.util.Optional;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 class TeamServiceTests {
 
@@ -23,7 +22,7 @@ class TeamServiceTests {
     private TeamRepository teamRepository;
 
     @InjectMocks
-    private TeamService teamService;
+    private TeamServiceImpl teamService;
 
     @BeforeEach
     void setUp() {
