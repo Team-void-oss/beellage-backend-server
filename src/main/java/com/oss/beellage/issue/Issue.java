@@ -1,7 +1,7 @@
-package com.oss.beellage.issue.domain;
+package com.oss.beellage.issue;
 
-import com.oss.beellage.project.domain.Project;
-import com.oss.beellage.schedule.domain.Schedule;
+import com.oss.beellage.project.Project;
+import com.oss.beellage.schedule.Schedule;
 import com.oss.beellage.user.User;
 import jakarta.persistence.*;
 import lombok.Data;

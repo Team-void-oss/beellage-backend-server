@@ -1,9 +1,11 @@
 package com.oss.beellage.team.controller;
 
-import com.oss.beellage.team.domain.Team;
+import com.oss.beellage.team.Team;
 import com.oss.beellage.team.dto.TeamRequest;
 import com.oss.beellage.team.service.TeamService;
+
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

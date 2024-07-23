@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.oss.beellage.issue.domain.Issue;
+import com.oss.beellage.issue.Issue;
 import com.oss.beellage.issue.dto.IssueRequest;
 import com.oss.beellage.issue.repository.IssueRepository;
+
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

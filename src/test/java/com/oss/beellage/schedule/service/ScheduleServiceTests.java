@@ -5,12 +5,14 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.oss.beellage.schedule.domain.Schedule;
+import com.oss.beellage.schedule.Schedule;
 import com.oss.beellage.schedule.dto.ScheduleRequest;
 import com.oss.beellage.schedule.repository.ScheduleRepository;
+
 import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

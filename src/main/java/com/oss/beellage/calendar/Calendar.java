@@ -1,8 +1,8 @@
-package com.oss.beellage.calendar.domain;
+package com.oss.beellage.calendar;
 
 
-import com.oss.beellage.schedule.domain.Schedule;
-import com.oss.beellage.team.domain.Team;
+import com.oss.beellage.schedule.Schedule;
+import com.oss.beellage.team.Team;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +12,9 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+
 import java.util.List;
+
 import lombok.Data;
 
 @Entity

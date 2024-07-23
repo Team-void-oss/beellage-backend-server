@@ -1,10 +1,12 @@
 package com.oss.beellage.issue.service;
 
-import com.oss.beellage.issue.domain.Issue;
+import com.oss.beellage.issue.Issue;
 import com.oss.beellage.issue.dto.IssueRequest;
 import com.oss.beellage.issue.repository.IssueRepository;
+
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

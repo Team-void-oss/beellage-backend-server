@@ -1,10 +1,12 @@
 package com.oss.beellage.team.service;
 
-import com.oss.beellage.team.domain.Team;
+import com.oss.beellage.team.Team;
 import com.oss.beellage.team.dto.TeamRequest;
 import com.oss.beellage.team.repository.TeamRepository;
+
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

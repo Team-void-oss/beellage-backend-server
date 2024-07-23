@@ -1,9 +1,11 @@
 package com.oss.beellage.issue.controller;
 
-import com.oss.beellage.issue.domain.Issue;
+import com.oss.beellage.issue.Issue;
 import com.oss.beellage.issue.dto.IssueRequest;
 import com.oss.beellage.issue.service.IssueService;
+
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

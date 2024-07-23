@@ -1,7 +1,9 @@
 package com.oss.beellage.project.collection;
 
-import com.oss.beellage.project.domain.Project;
+import com.oss.beellage.project.Project;
+
 import java.util.List;
+
 import lombok.Data;
 
 @Data

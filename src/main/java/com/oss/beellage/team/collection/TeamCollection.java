@@ -1,7 +1,9 @@
 package com.oss.beellage.team.collection;
 
-import com.oss.beellage.team.domain.Team;
+import com.oss.beellage.team.Team;
+
 import java.util.List;
+
 import lombok.Data;
 
 @Data

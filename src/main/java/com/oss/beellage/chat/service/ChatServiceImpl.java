@@ -2,7 +2,7 @@ package com.oss.beellage.chat.service;
 
 import com.oss.beellage.chat.Chat;
 import com.oss.beellage.chat.repository.ChatRepository;
-import com.oss.beellage.team.domain.Team;
+import com.oss.beellage.team.Team;
 import com.oss.beellage.team.repository.TeamRepository;
 import com.oss.beellage.user.User;
 import com.oss.beellage.user.repository.UserRepository;

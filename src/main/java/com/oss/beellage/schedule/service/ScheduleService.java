@@ -1,10 +1,12 @@
 package com.oss.beellage.schedule.service;
 
-import com.oss.beellage.schedule.domain.Schedule;
+import com.oss.beellage.schedule.Schedule;
 import com.oss.beellage.schedule.dto.ScheduleRequest;
 import com.oss.beellage.schedule.repository.ScheduleRepository;
+
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

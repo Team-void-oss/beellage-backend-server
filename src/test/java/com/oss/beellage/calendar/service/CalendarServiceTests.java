@@ -5,10 +5,12 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
-import com.oss.beellage.calendar.domain.Calendar;
+import com.oss.beellage.calendar.Calendar;
 import com.oss.beellage.calendar.dto.CalendarRequest;
 import com.oss.beellage.calendar.repository.CalendarRepository;
+
 import java.util.Optional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;

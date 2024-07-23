@@ -1,9 +1,11 @@
 package com.oss.beellage.project.controller;
 
-import com.oss.beellage.project.domain.Project;
+import com.oss.beellage.project.Project;
 import com.oss.beellage.project.dto.ProjectRequest;
 import com.oss.beellage.project.service.ProjectService;
+
 import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;

@@ -1,10 +1,12 @@
 package com.oss.beellage.project.service;
 
-import com.oss.beellage.project.domain.Project;
+import com.oss.beellage.project.Project;
 import com.oss.beellage.project.dto.ProjectRequest;
 import com.oss.beellage.project.repository.ProjectRepository;
+
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

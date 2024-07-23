@@ -1,9 +1,11 @@
 package com.oss.beellage.calendar.controller;
 
-import com.oss.beellage.calendar.domain.Calendar;
+import com.oss.beellage.calendar.Calendar;
 import com.oss.beellage.calendar.dto.CalendarRequest;
 import com.oss.beellage.calendar.service.CalendarService;
+
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

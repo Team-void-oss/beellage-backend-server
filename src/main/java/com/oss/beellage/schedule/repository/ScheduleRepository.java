@@ -1,7 +1,9 @@
 package com.oss.beellage.schedule.repository;
 
-import com.oss.beellage.schedule.domain.Schedule;
+import com.oss.beellage.schedule.Schedule;
+
 import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
