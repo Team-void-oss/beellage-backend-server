@@ -27,7 +27,12 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
-                .cors(Customizer.withDefaults());
+                .cors(Customizer.withDefaults())
+                .authorizeHttpRequests(authorize ->
+                        authorize
+                                .requestMatchers("/ws/**", "/api/v1/work/teams/**").permitAll() // API 엔드포인트에 대한 접근 허용
+                                .anyRequest().authenticated()
+                );
 
         return http.build();
     }
